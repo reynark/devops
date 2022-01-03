@@ -1,0 +1,40 @@
+Create images / containers
+
+[root@apache devops]# cat Dockerfile
+FROM alpine
+
+CMD echo "Hailing from $HOSTNAME"
+#CMD ["echo", "jolly hostname is : $HOSTNAME"]
+
+[root@apache devops]#
+-----
+[root@apache docker_files]# docker image ls
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+[root@apache docker_files]# docker build -t hostname-test .
+Sending build context to Docker daemon 2.048 kB
+Step 1/2 : FROM alpine
+Trying to pull repository docker.io/library/alpine ...
+latest: Pulling from docker.io/library/alpine
+59bf1c3509f3: Already exists
+Digest: sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300
+Status: Downloaded newer image for docker.io/alpine:latest
+ ---> c059bfaa849c
+Step 2/2 : CMD echo "Hailing from $HOSTNAME"
+ ---> Running in 335c12d740e9
+ ---> 9208b2e3fe9e
+Removing intermediate container 335c12d740e9
+Successfully built 9208b2e3fe9e
+[root@apache docker_files]# docker image ls
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+hostname-test       latest              9208b2e3fe9e        11 seconds ago      5.59 MB
+docker.io/alpine    latest              c059bfaa849c        5 weeks ago         5.59 MB
+[root@apache docker_files]# ll
+total 4
+-rw-rw-r-- 1 anil anil 95 Dec  6 14:34 Dockerfile
+
+---test the imnage/container --
+
+[root@apache devops]# docker run hostname-test
+Hailing from 1e1d37b665dd
+[root@apache devops]# docker run hostname-test
+Hailing from 6deb02735829
